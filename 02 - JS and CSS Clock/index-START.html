@@ -63,13 +63,56 @@
       background: black;
       position: absolute;
       top: 50%;
+      transform-origin: 100% 50%;
     }
+   
+    
+   
+
 
   </style>
 
   <script>
-
-
+  // 取得電腦時間
+  function getTime(){
+    var currentTime = new Date();
+    hour(currentTime);
+    // console.log(currentTime.getHours())
+    minute(currentTime);
+    second(currentTime.getSeconds());
+  }
+  window.onload = getTime()
+  window.setInterval('getTime();', 1000)
+  // 時針旋轉角度
+  function hour(data){
+    const hour_hand = document.querySelector('.hour-hand');;
+    let hour = data.getHours()
+    let minute = data.getMinutes()
+    // 每小時30度 + 每分鐘0.5度 + 預設少的90度
+    let totaldeg = hour*30 + minute * 1/2 + 90;
+    let d = totaldeg + "deg";
+    hour_hand.style.transform = "rotate(" + d + ")";
+  }
+  // 分針旋轉角度
+  function minute(data){
+    const min_hand = document.querySelector('.min-hand')
+    let minute = data.getMinutes()
+    let second = data.getSeconds()
+    // 每分鐘6度 + 每10秒1度 + 預設少的90度
+    let totaldeg = minute * 6 + second * 1/10 + 90;
+    let d = totaldeg + "deg";
+    min_hand.style.transform = "rotate(" + d + ")";
+  }
+  // 秒針旋轉角度
+  function second(data){
+      const second_hand = document.querySelector('.second-hand')
+      // 每秒6度 + 預設少的90度
+      let deg = 6 * data + 90;
+      let d = deg + "deg";
+      second_hand.style.transform = "rotate(" + d + ")";
+  }
+  
+  
   </script>
 </body>
 </html>
