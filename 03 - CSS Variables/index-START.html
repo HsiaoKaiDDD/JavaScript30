@@ -26,7 +26,7 @@
     /*
       misc styles, nothing to do with CSS variables
     */
-
+   
     body {
       text-align: center;
       background: #193549;
@@ -46,9 +46,28 @@
   </style>
 
   <script>
-  // 取得spacing的值
-  const spacing = document.querySelector('#spacing')
-  console.log(spacing.dataset.sizing)
+  //取得spacing的值
+  const spacing = document.querySelector('#spacing');
+  const color = document.querySelector('#base');
+  const image = document.querySelector('img');
+  const blur = document.querySelector('#blur')
+  const inputs = document.querySelectorAll('input');
+  // 為了要在一開始就先讀取到預設值
+  imgChange();
+  // 當input有更動時會執行更動
+  inputs.forEach(input => {
+    input.addEventListener('mousemove', imgChange);
+  });
+  inputs.forEach(input => {
+    input.addEventListener('change', imgChange);
+  });
+  
+  function imgChange(){
+    // spacing.value為間距，color.value為間距顏色
+    image.style.border = `${spacing.value}px solid ${color.value}`;
+    // blur.value為模糊度
+    image.style.filter = `blur(${blur.value}px)`;
+  };
   </script>
 
 </body>

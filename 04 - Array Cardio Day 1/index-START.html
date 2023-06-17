@@ -38,17 +38,41 @@
     
     // Array.prototype.filter()
     // 1. Filter the list of inventors for those who were born in the 1500's
+    
+    console.table(inventors.filter(checkPassed))
+    function checkPassed(number){
+      return number.year > 1500 && number.year < 1600;
+    };
 
     // Array.prototype.map()
     // 2. Give us an array of the inventors first and last names
 
+    console.table(inventors.map(x => ({ first: x.first, last: x.last })));
+   
     // Array.prototype.sort()
     // 3. Sort the inventors by birthdate, oldest to youngest
+
+    const birthdate = inventors.sort(function(a,b){
+        return a.year - b.year;
+    });
+    console.table(birthdate);
 
     // Array.prototype.reduce()
     // 4. How many years did all the inventors live all together?
 
+    const together = inventors.reduce((total,year) =>
+        total + (year.passed - year.year) ,0 
+    );
+    console.log(together);
+
     // 5. Sort the inventors by years lived
+    const lived = inventors.sort(function(a,b){
+        // 比較壽命，passed-year=壽命，a壽命 > b壽命時，會排在b前面
+        if(a.passed - a.year > b.passed - b.year) return -1;
+        // a壽命 < b壽命時，會排在b後面
+        if(a.passed - a.year < b.passed - b.year) return 1;
+    });
+    console.log(lived);
 
     // 6. create a list of Boulevards in Paris that contain 'de' anywhere in the name
     // https://en.wikipedia.org/wiki/Category:Boulevards_in_Paris
@@ -56,11 +80,26 @@
 
     // 7. sort Exercise
     // Sort the people alphabetically by last name
+    
+    const name_order = people.sort(function(a,b){
+        // 名子長度大於者排後方(return 1)
+        if(a > b) return 1;
+        if(a < b) return -1;
+    });
+    console.log(name_order);
 
     // 8. Reduce Exercise
     // Sum up the instances of each of these
     const data = ['car', 'car', 'truck', 'truck', 'bike', 'walk', 'car', 'van', 'bike', 'walk', 'car', 'van', 'car', 'truck' ];
-
+    const total_count = data.reduce((obj, item) =>{
+        if(item in obj){
+          obj[item]++;
+        }else{
+          obj[item] = 1;
+        }
+        return obj
+    },{})
+    console.log(total_count);
   </script>
 </body>
 </html>

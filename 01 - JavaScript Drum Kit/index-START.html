@@ -60,45 +60,56 @@
 
 <script>
 // 按下鍵時會取得對應的鍵值，利用鍵值取得對應被觸發的效果ㄎ
-document.addEventListener("keydown", keyboard);
-function keyboard(event) {
-  let keycode = event.keyCode;
-  // 按鈕效果
-  target_key(keycode)
-  // 按鈕聲音
-  audio_playing(keycode)
-}
-
-// 按鈕效果
-function target_key(data){
-  const keys = document.querySelectorAll('.key');
-  keys.forEach(key => {
-    // 取得對應之data-key
-    if(key.dataset.key == data){
-      key.classList.add('playing');
-      console.log(key)
-      // 移除效果
-      key.addEventListener("transitionend" , remove_key);
-    }
-  });
-}
-
-// 播放音效
-function audio_playing(data){
-  // 抓取data對應的audio
-  const audios = document.querySelectorAll('audio')
-  audios.forEach(audio => {
-    if(audio.dataset.key == data){
-      // 每次點擊時從頭開始撥放
-      audio.currentTime = 0;
-      audio.play()
-    }
-  })
+document.addEventListener('keydown', keyboard);
+function keyboard(e) {
+    // 抓取對應的data-key
+    const key = document.querySelector(`div[data-key='${e.keyCode}']`);
+    const audio = document.querySelector(`audio[data-key='${e.keyCode}']`);
+    // 按鈕效果
+    key.classList.add('playing');
+    // 按鈕聲音
+    audio.currentTime = 0;
+    audio.play();
+    // 移除.playing
+    key.addEventListener('transitionend' , remove_key);
 }
 
 function remove_key(){
-  this.classList.remove('playing')
+    this.classList.remove('playing');
 }
+
+
+// 按鈕效果
+// function targetKey(data){
+//   const keys = document.querySelectorAll('.key');
+//   keys.forEach(key => {
+//     // 取得對應之data-key
+//     console.log(key.dataset.key)
+//       console.log(parseInt(data))
+//     if(key.dataset.key === data){
+      
+//       key.classList.add('playing');
+//       console.log(key)
+//       // 移除效果
+      
+//     }
+//   });
+// }
+
+// 播放音效
+// function audio_playing(){
+//   // 抓取data對應的audio
+//   const audios = document.querySelectorAll('audio')
+//   audios.forEach(audio => {
+//     if(audio.dataset.key == data){
+//       // 每次點擊時從頭開始撥放
+//       audio.currentTime = 0;
+//       audio.play()
+//     }
+//   })
+// }
+
+
 </script>
 
 
