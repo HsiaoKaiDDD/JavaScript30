@@ -35,7 +35,21 @@
       font-weight: 100;
       font-size: 50px;
     }
-
+    /* 預設 */
+    :root{
+      --base: #ffc600;
+      --spacing: 10px;
+      --blur: 10px;
+    }
+    img {
+      padding: var(--spacing);
+      background: var(--base);
+      filter: blur(var(--blur));
+    }
+    /* 上方JS文字顏色 */
+    .hl {
+      color: var(--base);
+    }
     .controls {
       margin-bottom: 50px;
     }
@@ -46,28 +60,20 @@
   </style>
 
   <script>
-  //取得spacing的值
-  const spacing = document.querySelector('#spacing');
-  const color = document.querySelector('#base');
-  const image = document.querySelector('img');
-  const blur = document.querySelector('#blur')
+  //取得所有input
   const inputs = document.querySelectorAll('input');
-  // 為了要在一開始就先讀取到預設值
-  imgChange();
   // 當input有更動時會執行更動
   inputs.forEach(input => {
-    input.addEventListener('mousemove', imgChange);
-  });
-  inputs.forEach(input => {
-    input.addEventListener('change', imgChange);
+      input.addEventListener('mousemove', imgChange);
+      input.addEventListener('change', imgChange);
+      
   });
   
   function imgChange(){
-    // spacing.value為間距，color.value為間距顏色
-    image.style.border = `${spacing.value}px solid ${color.value}`;
-    // blur.value為模糊度
-    image.style.filter = `blur(${blur.value}px)`;
-  };
+      // 單位，如沒有data-sizing為空字串
+      const suffix = this.dataset.sizing || '';
+      document.documentElement.style.setProperty(`--${this.name}`, this.value + suffix);
+  }
   </script>
 
 </body>
