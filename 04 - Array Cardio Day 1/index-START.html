@@ -41,13 +41,13 @@
     
     console.table(inventors.filter(checkPassed))
     function checkPassed(number){
-      return number.year > 1500 && number.year < 1600;
+        return number.year > 1500 && number.year < 1600;
     };
 
     // Array.prototype.map()
     // 2. Give us an array of the inventors first and last names
 
-    console.table(inventors.map(x => ({ first: x.first, last: x.last })));
+    console.table(inventors.map(inventor => `${inventor.first} ${inventor.last}`));
    
     // Array.prototype.sort()
     // 3. Sort the inventors by birthdate, oldest to youngest
@@ -81,21 +81,28 @@
     // 7. sort Exercise
     // Sort the people alphabetically by last name
     
-    const name_order = people.sort(function(a,b){
+    const name_order = people.sort(function(currentName,nextName){
         // 名子長度大於者排後方(return 1)
-        if(a > b) return 1;
-        if(a < b) return -1;
+        
+        const [afirst, alast] = currentName.split(', ');
+        const [bfirst, blast] = nextName.split(', ');
+        // 解答寫法
+        return afirst > bfirst ? 1 : -1;
+        // 我原先的解法
+        // if(afirst > bfirst) return 1;
+        // if(afirst < bfirst) return -1;
     });
     console.log(name_order);
 
+    
     // 8. Reduce Exercise
     // Sum up the instances of each of these
     const data = ['car', 'car', 'truck', 'truck', 'bike', 'walk', 'car', 'van', 'bike', 'walk', 'car', 'van', 'car', 'truck' ];
     const total_count = data.reduce((obj, item) =>{
         if(item in obj){
-          obj[item]++;
+            obj[item]++;
         }else{
-          obj[item] = 1;
+            obj[item] = 1;
         }
         return obj
     },{})
