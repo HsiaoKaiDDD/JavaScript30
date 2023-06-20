@@ -18,6 +18,63 @@
 <script>
 const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
 
+
+
+
+// search框
+const searchInput = document.querySelector('.search');
+const search_li = document.querySelector('.suggestions li');
+const suggestions = document.querySelector('.suggestions');
+
+// 將json資料進到city_data
+const city_data = [];
+fetch(endpoint)
+    .then((response) => response.json())
+    // 用...是因為要將json資料逐個推入city_data
+    .then((json) => city_data.push(...json));
+
+
+searchInput.addEventListener('change', searchCity);
+// 篩選有包含關鍵字的city
+function searchCity(){
+    // 抓取關鍵字
+    const search_value = document.querySelector('.search').value;
+    // 過濾資料，符合關鍵字的city、state丟進filter_data
+    const filter_data = city_data.filter(function(allCity){
+        return allCity.city.includes(search_value) || allCity.state.includes(search_value);
+    });
+    // 將原來的<li>清空
+    suggestions.innerHTML = ''
+    targetHighlighted(filter_data,search_value);
+}
+
+// 將關鍵字的部分加上class=hl
+function targetHighlighted(filter_data,search_value){
+    const cities = filter_data.map(item => {
+        // g為全域，代表可以找尋多個目標
+        // i為不區分大小寫。 如果沒有加上g，只會有第一個符合的資料，後面儘管符合關鍵字也將不會有反應。
+        const regex = new RegExp(search_value, 'gi');
+        // 關鍵字的部分變為html形式(為了讓背景色變黃)
+        const highlightedCity = item.city.replace(regex, '<span class="hl">$&</span>');
+        const highlightedState = item.state.replace(regex, '<span class="hl">$&</span>');
+        const cityFullname = highlightedCity + ',' + highlightedState;
+        displayCities(cityFullname,item.population);
+    });
+}
+
+// 將html打印上去
+function displayCities(target,targetPopulation){
+    suggestions.innerHTML += `
+        <li>
+          <span>${target}</span>
+          <span>${targetPopulation}</span>
+        </li>`;
+}
+// 解題思路
+// 1.先把json儲存在city_data陣列
+// 2.監聽輸入框輸入文字 -> 篩選陣列
+// 3.將陣列變為html
+// 3.將陣列丟到html
 </script>
 </body>
 </html>
